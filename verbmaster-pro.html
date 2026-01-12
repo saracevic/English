@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerbMaster Pro - Master English Irregular Verbs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .mode-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .mode-btn.active {
+            background: #764ba2;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .verb-display {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .verb-forms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .verb-form {
+            text-align: center;
+        }
+
+        .form-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            padding: 10px;
+            background: #f0f4ff;
+            border-radius: 8px;
+        }
+
+        .examples {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .examples h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+
+        .example {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-secondary {
+            background: #764ba2;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #63408a;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .quiz-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        .quiz-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .feedback {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+
+        .verb-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .verb-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .verb-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .verb-item-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .verb-item-forms {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .speaker-icon {
+            cursor: pointer;
+            font-size: 1.5em;
+            margin-left: 10px;
+            transition: transform 0.2s ease;
+        }
+
+        .speaker-icon:hover {
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .verb-forms {
+                grid-template-columns: 1fr;
+            }
+
+            .mode-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+        }
+
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .quiz-option.incorrect {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 VerbMaster Pro</h1>
+            <p class="subtitle">Master 55+ English Irregular Verbs with Interactive Learning</p>
+        </header>
+
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="setMode('learning')">📚 Learning Mode</button>
+            <button class="mode-btn" onclick="setMode('quiz')">🎯 Quiz Mode</button>
+            <button class="mode-btn" onclick="setMode('list')">📋 Verb List</button>
+            <button class="mode-btn" onclick="setMode('stats')">📊 Statistics</button>
+        </div>
+
+        <!-- Learning Mode -->
+        <div id="learning-mode" class="card">
+            <div class="verb-display">
+                <h2 style="color: #764ba2; margin-bottom: 20px;">Learn Irregular Verbs</h2>
+                <div class="verb-forms">
+                    <div class="verb-form">
+                        <div class="form-label">Base Form</div>
+                        <div class="form-value" id="base-form">
+                            <span id="base-text"></span>
+                            <span class="speaker-icon" onclick="speak('base')">🔊</span>
+                        </div>
+                    </div>
+                    <div class="verb-form">
+                        <div class="form-label">Past Simple</div>
+                        <div class="form-value" id="past-form">
+                            <span id="past-text"></span>
+                            <span class="speaker-icon" onclick="speak('past')">🔊</span>
+                        </div>
+                    </div>
+                    <div class="verb-form">
+                        <div class="form-label">Past Participle</div>
+                        <div class="form-value" id="participle-form">
+                            <span id="participle-text"></span>
+                            <span class="speaker-icon" onclick="speak('participle')">🔊</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="examples">
+                    <h3>📝 Example Sentences</h3>
+                    <div id="examples-container"></div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="previousVerb()">⬅️ Previous</button>
+                    <button class="btn btn-secondary" onclick="randomVerb()">🔀 Random</button>
+                    <button class="btn btn-primary" onclick="nextVerb()">Next ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Mode -->
+        <div id="quiz-mode" class="card hidden">
+            <div class="verb-display">
+                <h2 style="color: #764ba2; margin-bottom: 20px;">Quiz Challenge</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quiz-progress">0/10</div>
+                </div>
+                <div id="quiz-content">
+                    <div class="quiz-question" id="quiz-question"></div>
+                    <div class="quiz-options" id="quiz-options"></div>
+                    <div id="quiz-feedback"></div>
+                </div>
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="startQuiz()">🎯 New Quiz</button>
+                    <button class="btn btn-secondary" id="next-question-btn" onclick="nextQuestion()" class="hidden">Next Question ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verb List -->
+        <div id="list-mode" class="card hidden">
+            <h2 style="color: #764ba2; margin-bottom: 20px;">Complete Verb List</h2>
+            <div class="filter-section">
+                <input type="text" class="search-input" id="search-input" placeholder="🔍 Search verbs..." oninput="filterVerbs()">
+            </div>
+            <div class="verb-list" id="verb-list"></div>
+        </div>
+
+        <!-- Statistics -->
+        <div id="stats-mode" class="card hidden">
+            <h2 style="color: #764ba2; margin-bottom: 20px;">Your Learning Statistics</h2>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-number" id="total-verbs">0</div>
+                    <div class="stat-label">Total Verbs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="verbs-learned">0</div>
+                    <div class="stat-label">Verbs Viewed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="quizzes-taken">0</div>
+                    <div class="stat-label">Quizzes Taken</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="correct-answers">0</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="accuracy-rate">0%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="study-time">0</div>
+                    <div class="stat-label">Minutes Studied</div>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-secondary" onclick="resetStats()">🔄 Reset Statistics</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Comprehensive irregular verbs database with examples
+        const verbs = [
+            {
+                base: "be", past: "was/were", participle: "been",
+                examples: [
+                    "I am a teacher. (Present)",
+                    "She was happy yesterday. (Past)",
+                    "They have been friends for years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "become", past: "became", participle: "become",
+                examples: [
+                    "He wants to become a doctor. (Present)",
+                    "She became famous overnight. (Past)",
+                    "It has become very popular. (Present Perfect)"
+                ]
+            },
+            {
+                base: "begin", past: "began", participle: "begun",
+                examples: [
+                    "Let's begin the meeting. (Present)",
+                    "The movie began at 8 PM. (Past)",
+                    "We have begun a new project. (Present Perfect)"
+                ]
+            },
+            {
+                base: "break", past: "broke", participle: "broken",
+                examples: [
+                    "Don't break the vase! (Present)",
+                    "He broke his leg skiing. (Past)",
+                    "The window has been broken. (Present Perfect)"
+                ]
+            },
+            {
+                base: "bring", past: "brought", participle: "brought",
+                examples: [
+                    "Please bring your notebook. (Present)",
+                    "She brought cookies to the party. (Past)",
+                    "Have you brought the documents? (Present Perfect)"
+                ]
+            },
+            {
+                base: "build", past: "built", participle: "built",
+                examples: [
+                    "They build houses for a living. (Present)",
+                    "Romans built impressive roads. (Past)",
+                    "The bridge has been built recently. (Present Perfect)"
+                ]
+            },
+            {
+                base: "buy", past: "bought", participle: "bought",
+                examples: [
+                    "I need to buy groceries. (Present)",
+                    "She bought a new car yesterday. (Past)",
+                    "Have you bought the tickets yet? (Present Perfect)"
+                ]
+            },
+            {
+                base: "catch", past: "caught", participle: "caught",
+                examples: [
+                    "Can you catch the ball? (Present)",
+                    "I caught a cold last week. (Past)",
+                    "The thief has been caught. (Present Perfect)"
+                ]
+            },
+            {
+                base: "choose", past: "chose", participle: "chosen",
+                examples: [
+                    "Choose your favorite color. (Present)",
+                    "He chose the blue shirt. (Past)",
+                    "The winner has been chosen. (Present Perfect)"
+                ]
+            },
+            {
+                base: "come", past: "came", participle: "come",
+                examples: [
+                    "Come here, please! (Present)",
+                    "They came to visit us. (Past)",
+                    "Spring has come early this year. (Present Perfect)"
+                ]
+            },
+            {
+                base: "do", past: "did", participle: "done",
+                examples: [
+                    "What do you do for work? (Present)",
+                    "She did her homework. (Past)",
+                    "I have done my best. (Present Perfect)"
+                ]
+            },
+            {
+                base: "drink", past: "drank", participle: "drunk",
+                examples: [
+                    "I drink coffee every morning. (Present)",
+                    "He drank all the juice. (Past)",
+                    "Have you drunk enough water? (Present Perfect)"
+                ]
+            },
+            {
+                base: "drive", past: "drove", participle: "driven",
+                examples: [
+                    "I drive to work daily. (Present)",
+                    "She drove across the country. (Past)",
+                    "He has driven this car for years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "eat", past: "ate", participle: "eaten",
+                examples: [
+                    "We eat dinner at 7 PM. (Present)",
+                    "They ate pizza for lunch. (Past)",
+                    "I have eaten here before. (Present Perfect)"
+                ]
+            },
+            {
+                base: "fall", past: "fell", participle: "fallen",
+                examples: [
+                    "Leaves fall in autumn. (Present)",
+                    "He fell down the stairs. (Past)",
+                    "Snow has fallen overnight. (Present Perfect)"
+                ]
+            },
+            {
+                base: "feel", past: "felt", participle: "felt",
+                examples: [
+                    "I feel happy today. (Present)",
+                    "She felt tired after work. (Past)",
+                    "I have felt better lately. (Present Perfect)"
+                ]
+            },
+            {
+                base: "find", past: "found", participle: "found",
+                examples: [
+                    "Can you find my keys? (Present)",
+                    "I found a $20 bill. (Past)",
+                    "They have found a solution. (Present Perfect)"
+                ]
+            },
+            {
+                base: "fly", past: "flew", participle: "flown",
+                examples: [
+                    "Birds fly south for winter. (Present)",
+                    "We flew to Paris last year. (Past)",
+                    "I have never flown first class. (Present Perfect)"
+                ]
+            },
+            {
+                base: "forget", past: "forgot", participle: "forgotten",
+                examples: [
+                    "Don't forget your umbrella. (Present)",
+                    "I forgot my password. (Past)",
+                    "She has forgotten her appointment. (Present Perfect)"
+                ]
+            },
+            {
+                base: "get", past: "got", participle: "gotten/got",
+                examples: [
+                    "I get up at 6 AM. (Present)",
+                    "She got a promotion. (Past)",
+                    "Have you gotten the email? (Present Perfect)"
+                ]
+            },
+            {
+                base: "give", past: "gave", participle: "given",
+                examples: [
+                    "They give to charity. (Present)",
+                    "He gave me a gift. (Past)",
+                    "I have given my best effort. (Present Perfect)"
+                ]
+            },
+            {
+                base: "go", past: "went", participle: "gone",
+                examples: [
+                    "I go to the gym regularly. (Present)",
+                    "They went to the beach. (Past)",
+                    "She has gone home already. (Present Perfect)"
+                ]
+            },
+            {
+                base: "grow", past: "grew", participle: "grown",
+                examples: [
+                    "Plants grow in sunlight. (Present)",
+                    "The company grew rapidly. (Past)",
+                    "My kids have grown so tall. (Present Perfect)"
+                ]
+            },
+            {
+                base: "have", past: "had", participle: "had",
+                examples: [
+                    "I have a car. (Present)",
+                    "She had a great idea. (Past)",
+                    "We have had many challenges. (Present Perfect)"
+                ]
+            },
+            {
+                base: "hear", past: "heard", participle: "heard",
+                examples: [
+                    "Can you hear that sound? (Present)",
+                    "I heard a noise outside. (Past)",
+                    "Have you heard the news? (Present Perfect)"
+                ]
+            },
+            {
+                base: "hide", past: "hid", participle: "hidden",
+                examples: [
+                    "Children hide during the game. (Present)",
+                    "He hid the treasure. (Past)",
+                    "The keys have been hidden. (Present Perfect)"
+                ]
+            },
+            {
+                base: "hold", past: "held", participle: "held",
+                examples: [
+                    "Please hold my hand. (Present)",
+                    "She held the baby carefully. (Past)",
+                    "The meeting has been held online. (Present Perfect)"
+                ]
+            },
+            {
+                base: "keep", past: "kept", participle: "kept",
+                examples: [
+                    "I keep my promises. (Present)",
+                    "She kept the secret. (Past)",
+                    "We have kept in touch. (Present Perfect)"
+                ]
+            },
+            {
+                base: "know", past: "knew", participle: "known",
+                examples: [
+                    "I know the answer. (Present)",
+                    "He knew the truth. (Past)",
+                    "I have known her for years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "leave", past: "left", participle: "left",
+                examples: [
+                    "I leave work at 5 PM. (Present)",
+                    "They left early yesterday. (Past)",
+                    "The train has already left. (Present Perfect)"
+                ]
+            },
+            {
+                base: "lend", past: "lent", participle: "lent",
+                examples: [
+                    "Banks lend money. (Present)",
+                    "He lent me his book. (Past)",
+                    "I have lent him $50. (Present Perfect)"
+                ]
+            },
+            {
+                base: "lose", past: "lost", participle: "lost",
+                examples: [
+                    "I often lose my keys. (Present)",
+                    "They lost the game. (Past)",
+                    "She has lost weight. (Present Perfect)"
+                ]
+            },
+            {
+                base: "make", past: "made", participle: "made",
+                examples: [
+                    "I make breakfast daily. (Present)",
+                    "She made a mistake. (Past)",
+                    "We have made progress. (Present Perfect)"
+                ]
+            },
+            {
+                base: "mean", past: "meant", participle: "meant",
+                examples: [
+                    "What does this word mean? (Present)",
+                    "I meant to call you. (Past)",
+                    "It has meant a lot to me. (Present Perfect)"
+                ]
+            },
+            {
+                base: "meet", past: "met", participle: "met",
+                examples: [
+                    "Let's meet at noon. (Present)",
+                    "I met her at the party. (Past)",
+                    "Have you met my sister? (Present Perfect)"
+                ]
+            },
+            {
+                base: "pay", past: "paid", participle: "paid",
+                examples: [
+                    "I pay my bills online. (Present)",
+                    "She paid cash. (Past)",
+                    "Have you paid the rent? (Present Perfect)"
+                ]
+            },
+            {
+                base: "put", past: "put", participle: "put",
+                examples: [
+                    "Put the book on the table. (Present)",
+                    "He put his coat on. (Past)",
+                    "I have put it away. (Present Perfect)"
+                ]
+            },
+            {
+                base: "read", past: "read", participle: "read",
+                examples: [
+                    "I read every day. (Present)",
+                    "She read the entire book. (Past)",
+                    "Have you read this article? (Present Perfect)"
+                ]
+            },
+            {
+                base: "ride", past: "rode", participle: "ridden",
+                examples: [
+                    "I ride my bike to work. (Present)",
+                    "He rode a horse yesterday. (Past)",
+                    "I have never ridden a motorcycle. (Present Perfect)"
+                ]
+            },
+            {
+                base: "ring", past: "rang", participle: "rung",
+                examples: [
+                    "The phone rings constantly. (Present)",
+                    "The bell rang loudly. (Past)",
+                    "The alarm has rung. (Present Perfect)"
+                ]
+            },
+            {
+                base: "run", past: "ran", participle: "run",
+                examples: [
+                    "I run every morning. (Present)",
+                    "She ran a marathon. (Past)",
+                    "He has run this business for years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "say", past: "said", participle: "said",
+                examples: [
+                    "What do you say? (Present)",
+                    "He said goodbye. (Past)",
+                    "I have said too much. (Present Perfect)"
+                ]
+            },
+            {
+                base: "see", past: "saw", participle: "seen",
+                examples: [
+                    "I see you! (Present)",
+                    "We saw a movie. (Past)",
+                    "Have you seen my glasses? (Present Perfect)"
+                ]
+            },
+            {
+                base: "sell", past: "sold", participle: "sold",
+                examples: [
+                    "They sell fresh produce. (Present)",
+                    "He sold his car. (Past)",
+                    "The house has been sold. (Present Perfect)"
+                ]
+            },
+            {
+                base: "send", past: "sent", participle: "sent",
+                examples: [
+                    "I send emails daily. (Present)",
+                    "She sent a package. (Past)",
+                    "Have you sent the invitation? (Present Perfect)"
+                ]
+            },
+            {
+                base: "show", past: "showed", participle: "shown",
+                examples: [
+                    "Let me show you. (Present)",
+                    "He showed me the way. (Past)",
+                    "The results have been shown. (Present Perfect)"
+                ]
+            },
+            {
+                base: "sing", past: "sang", participle: "sung",
+                examples: [
+                    "Birds sing in the morning. (Present)",
+                    "She sang beautifully. (Past)",
+                    "We have sung this song before. (Present Perfect)"
+                ]
+            },
+            {
+                base: "sit", past: "sat", participle: "sat",
+                examples: [
+                    "Please sit down. (Present)",
+                    "They sat in silence. (Past)",
+                    "I have sat here for hours. (Present Perfect)"
+                ]
+            },
+            {
+                base: "sleep", past: "slept", participle: "slept",
+                examples: [
+                    "I sleep 8 hours nightly. (Present)",
+                    "The baby slept peacefully. (Past)",
+                    "I have slept well this week. (Present Perfect)"
+                ]
+            },
+            {
+                base: "speak", past: "spoke", participle: "spoken",
+                examples: [
+                    "Do you speak English? (Present)",
+                    "He spoke at the conference. (Past)",
+                    "I have spoken to the manager. (Present Perfect)"
+                ]
+            },
+            {
+                base: "spend", past: "spent", participle: "spent",
+                examples: [
+                    "I spend time with family. (Present)",
+                    "She spent all her money. (Past)",
+                    "We have spent too much. (Present Perfect)"
+                ]
+            },
+            {
+                base: "stand", past: "stood", participle: "stood",
+                examples: [
+                    "Stand up straight! (Present)",
+                    "Everyone stood and applauded. (Past)",
+                    "The building has stood for 100 years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "swim", past: "swam", participle: "swum",
+                examples: [
+                    "Fish swim in the ocean. (Present)",
+                    "We swam in the pool. (Past)",
+                    "I have swum across the lake. (Present Perfect)"
+                ]
+            },
+            {
+                base: "take", past: "took", participle: "taken",
+                examples: [
+                    "Take your time. (Present)",
+                    "She took the bus. (Past)",
+                    "The seats have been taken. (Present Perfect)"
+                ]
+            },
+            {
+                base: "teach", past: "taught", participle: "taught",
+                examples: [
+                    "I teach mathematics. (Present)",
+                    "She taught me guitar. (Past)",
+                    "He has taught for 20 years. (Present Perfect)"
+                ]
+            },
+            {
+                base: "tell", past: "told", participle: "told",
+                examples: [
+                    "Tell me a story. (Present)",
+                    "He told the truth. (Past)",
+                    "I have told you before. (Present Perfect)"
+                ]
+            },
+            {
+                base: "think", past: "thought", participle: "thought",
+                examples: [
+                    "I think you're right. (Present)",
+                    "She thought carefully. (Past)",
+                    "I have thought about it. (Present Perfect)"
+                ]
+            },
+            {
+                base: "throw", past: "threw", participle: "thrown",
+                examples: [
+                    "Don't throw litter. (Present)",
+                    "He threw the ball far. (Past)",
+                    "The dice have been thrown. (Present Perfect)"
+                ]
+            },
+            {
+                base: "understand", past: "understood", participle: "understood",
+                examples: [
+                    "Do you understand? (Present)",
+                    "She understood the lesson. (Past)",
+                    "I have understood the concept. (Present Perfect)"
+                ]
+            },
+            {
+                base: "wake", past: "woke", participle: "woken",
+                examples: [
+                    "I wake up early. (Present)",
+                    "The alarm woke me. (Past)",
+                    "Have you woken up yet? (Present Perfect)"
+                ]
+            },
+            {
+                base: "wear", past: "wore", participle: "worn",
+                examples: [
+                    "I wear glasses. (Present)",
+                    "She wore a beautiful dress. (Past)",
+                    "These shoes have been worn out. (Present Perfect)"
+                ]
+            },
+            {
+                base: "win", past: "won", participle: "won",
+                examples: [
+                    "I want to win! (Present)",
+                    "They won the championship. (Past)",
+                    "She has won many awards. (Present Perfect)"
+                ]
+            },
+            {
+                base: "write", past: "wrote", participle: "written",
+                examples: [
+                    "I write in my journal daily. (Present)",
+                    "He wrote a bestseller. (Past)",
+                    "The letter has been written. (Present Perfect)"
+                ]
+            }
+        ];
+
+        // Application state
+        let currentVerbIndex = 0;
+        let stats = {
+            verbsLearned: new Set(),
+            quizzesTaken: 0,
+            correctAnswers: 0,
+            totalAnswers: 0,
+            studyTime: 0
+        };
+
+        // Quiz state
+        let quizVerbs = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+
+        // Load stats from localStorage
+        function loadStats() {
+            const savedStats = localStorage.getItem('verbMasterStats');
+            if (savedStats) {
+                const parsed = JSON.parse(savedStats);
+                stats = {
+                    ...parsed,
+                    verbsLearned: new Set(parsed.verbsLearned || [])
+                };
+            }
+        }
+
+        // Save stats to localStorage
+        function saveStats() {
+            const toSave = {
+                ...stats,
+                verbsLearned: Array.from(stats.verbsLearned)
+            };
+            localStorage.setItem('verbMasterStats', JSON.stringify(toSave));
+        }
+
+        // Initialize app
+        function init() {
+            loadStats();
+            displayVerb(currentVerbIndex);
+            updateStats();
+            generateVerbList();
+            startStudyTimer();
+        }
+
+        // Study timer
+        function startStudyTimer() {
+            setInterval(() => {
+                stats.studyTime++;
+                saveStats();
+            }, 60000); // Update every minute
+        }
+
+        // Mode switching
+        function setMode(mode) {
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('learning-mode').classList.add('hidden');
+            document.getElementById('quiz-mode').classList.add('hidden');
+            document.getElementById('list-mode').classList.add('hidden');
+            document.getElementById('stats-mode').classList.add('hidden');
+            
+            switch(mode) {
+                case 'learning':
+                    document.getElementById('learning-mode').classList.remove('hidden');
+                    break;
+                case 'quiz':
+                    document.getElementById('quiz-mode').classList.remove('hidden');
+                    break;
+                case 'list':
+                    document.getElementById('list-mode').classList.remove('hidden');
+                    break;
+                case 'stats':
+                    document.getElementById('stats-mode').classList.remove('hidden');
+                    updateStats();
+                    break;
+            }
+        }
+
+        // Display verb
+        function displayVerb(index) {
+            const verb = verbs[index];
+            document.getElementById('base-text').textContent = verb.base;
+            document.getElementById('past-text').textContent = verb.past;
+            document.getElementById('participle-text').textContent = verb.participle;
+            
+            const examplesContainer = document.getElementById('examples-container');
+            examplesContainer.innerHTML = '';
+            verb.examples.forEach(example => {
+                const div = document.createElement('div');
+                div.className = 'example';
+                div.innerHTML = `<span class="speaker-icon" onclick="speakText('${example.replace(/'/g, "\\'")}')">🔊</span> ${example}`;
+                examplesContainer.appendChild(div);
+            });
+            
+            stats.verbsLearned.add(verb.base);
+            saveStats();
+            updateStats();
+        }
+
+        // Navigation functions
+        function nextVerb() {
+            currentVerbIndex = (currentVerbIndex + 1) % verbs.length;
+            displayVerb(currentVerbIndex);
+        }
+
+        function previousVerb() {
+            currentVerbIndex = (currentVerbIndex - 1 + verbs.length) % verbs.length;
+            displayVerb(currentVerbIndex);
+        }
+
+        function randomVerb() {
+            currentVerbIndex = Math.floor(Math.random() * verbs.length);
+            displayVerb(currentVerbIndex);
+        }
+
+        // Text-to-speech
+        function speak(form) {
+            const verb = verbs[currentVerbIndex];
+            let text = '';
+            switch(form) {
+                case 'base':
+                    text = verb.base;
+                    break;
+                case 'past':
+                    text = verb.past;
+                    break;
+                case 'participle':
+                    text = verb.participle;
+                    break;
+            }
+            speakText(text);
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('Sorry, your browser does not support text-to-speech.');
+            }
+        }
+
+        // Quiz functions
+        function startQuiz() {
+            quizVerbs = [...verbs].sort(() => Math.random() - 0.5).slice(0, 10);
+            currentQuizIndex = 0;
+            quizScore = 0;
+            stats.quizzesTaken++;
+            saveStats();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuizIndex >= quizVerbs.length) {
+                showQuizResults();
+                return;
+            }
+
+            const verb = quizVerbs[currentQuizIndex];
+            const questionTypes = ['past', 'participle'];
+            const questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+            
+            let question = '';
+            let correctAnswer = '';
+            
+            if (questionType === 'past') {
+                question = `What is the past simple form of "${verb.base}"?`;
+                correctAnswer = verb.past;
+            } else {
+                question = `What is the past participle of "${verb.base}"?`;
+                correctAnswer = verb.participle;
+            }
+            
+            document.getElementById('quiz-question').textContent = question;
+            
+            // Generate options
+            const options = [correctAnswer];
+            while (options.length < 4) {
+                const randomVerb = verbs[Math.floor(Math.random() * verbs.length)];
+                const option = questionType === 'past' ? randomVerb.past : randomVerb.participle;
+                if (!options.includes(option)) {
+                    options.push(option);
+                }
+            }
+            
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = option;
+                div.onclick = () => checkAnswer(option, correctAnswer, div);
+                optionsContainer.appendChild(div);
+            });
+            
+            document.getElementById('quiz-feedback').innerHTML = '';
+            document.getElementById('next-question-btn').classList.add('hidden');
+            
+            updateQuizProgress();
+        }
+
+        function checkAnswer(selected, correct, element) {
+            stats.totalAnswers++;
+            
+            const allOptions = document.querySelectorAll('.quiz-option');
+            allOptions.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt.textContent === correct) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            if (selected === correct) {
+                element.classList.add('correct');
+                quizScore++;
+                stats.correctAnswers++;
+                document.getElementById('quiz-feedback').innerHTML = 
+                    '<div class="feedback correct">✅ Correct! Well done!</div>';
+                speakText('Correct');
+            } else {
+                element.classList.add('incorrect');
+                document.getElementById('quiz-feedback').innerHTML = 
+                    `<div class="feedback incorrect">❌ Incorrect. The correct answer is: ${correct}</div>`;
+                speakText('Incorrect');
+            }
+            
+            saveStats();
+            document.getElementById('next-question-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            showQuestion();
+        }
+
+        function showQuizResults() {
+            const percentage = Math.round((quizScore / quizVerbs.length) * 100);
+            document.getElementById('quiz-content').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #764ba2; font-size: 2.5em; margin-bottom: 20px;">
+                        ${percentage >= 70 ? '🎉' : '📚'} Quiz Complete!
+                    </h2>
+                    <div style="font-size: 3em; font-weight: bold; color: #667eea; margin: 20px 0;">
+                        ${quizScore}/${quizVerbs.length}
+                    </div>
+                    <div style="font-size: 1.5em; margin-bottom: 30px;">
+                        ${percentage}% Correct
+                    </div>
+                    <div style="font-size: 1.2em; color: #666;">
+                        ${percentage >= 90 ? 'Outstanding! You\'re a VerbMaster!' :
+                          percentage >= 70 ? 'Great job! Keep practicing!' :
+                          'Good effort! Review the verbs and try again.'}
+                    </div>
+                </div>
+            `;
+            document.getElementById('next-question-btn').classList.add('hidden');
+            updateStats();
+        }
+
+        function updateQuizProgress() {
+            const progress = ((currentQuizIndex / quizVerbs.length) * 100);
+            const progressFill = document.getElementById('quiz-progress');
+            progressFill.style.width = progress + '%';
+            progressFill.textContent = `${currentQuizIndex}/${quizVerbs.length}`;
+        }
+
+        // Verb list
+        function generateVerbList() {
+            const listContainer = document.getElementById('verb-list');
+            listContainer.innerHTML = '';
+            
+            verbs.forEach((verb, index) => {
+                const div = document.createElement('div');
+                div.className = 'verb-item';
+                div.innerHTML = `
+                    <div class="verb-item-title">${verb.base}</div>
+                    <div class="verb-item-forms">${verb.past} - ${verb.participle}</div>
+                `;
+                div.onclick = () => {
+                    currentVerbIndex = index;
+                    setMode('learning');
+                    displayVerb(index);
+                    document.querySelectorAll('.mode-btn')[0].classList.add('active');
+                    document.querySelectorAll('.mode-btn')[2].classList.remove('active');
+                };
+                listContainer.appendChild(div);
+            });
+        }
+
+        function filterVerbs() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const verbItems = document.querySelectorAll('.verb-item');
+            
+            verbItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Statistics
+        function updateStats() {
+            document.getElementById('total-verbs').textContent = verbs.length;
+            document.getElementById('verbs-learned').textContent = stats.verbsLearned.size;
+            document.getElementById('quizzes-taken').textContent = stats.quizzesTaken;
+            document.getElementById('correct-answers').textContent = stats.correctAnswers;
+            
+            const accuracy = stats.totalAnswers > 0 
+                ? Math.round((stats.correctAnswers / stats.totalAnswers) * 100) 
+                : 0;
+            document.getElementById('accuracy-rate').textContent = accuracy + '%';
+            document.getElementById('study-time').textContent = stats.studyTime;
+        }
+
+        function resetStats() {
+            if (confirm('Are you sure you want to reset all statistics? This cannot be undone.')) {
+                stats = {
+                    verbsLearned: new Set(),
+                    quizzesTaken: 0,
+                    correctAnswers: 0,
+                    totalAnswers: 0,
+                    studyTime: 0
+                };
+                saveStats();
+                updateStats();
+                alert('Statistics have been reset!');
+            }
+        }
+
+        // Initialize on page load
+        window.onload = init;
+    </script>
+</body>
+</html>
