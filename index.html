@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hafıza Teknikleri ile İngilizce Öğren</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Hafıza Teknikleri ile İngilizce</h1>
+            <p class="subtitle">200+ Kelime - Görsel ve Sesli Anlatımla</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <button id="playBtn" class="btn btn-play">▶️ Başlat</button>
+                <button id="pauseBtn" class="btn btn-pause" disabled>��️ Duraklat</button>
+                <button id="prevBtn" class="btn btn-nav">⏮️ Önceki</button>
+                <button id="nextBtn" class="btn btn-nav">⏭️ Sonraki</button>
+            </div>
+            
+            <div class="control-group">
+                <label for="speedControl">Hız:</label>
+                <select id="speedControl" class="select-control">
+                    <option value="3000">Hızlı (3 sn)</option>
+                    <option value="5000" selected>Normal (5 sn)</option>
+                    <option value="8000">Yavaş (8 sn)</option>
+                    <option value="10000">Çok Yavaş (10 sn)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="categoryFilter">Kategori:</label>
+                <select id="categoryFilter" class="select-control">
+                    <option value="all">Tümü</option>
+                    <option value="basic">Temel Kelimeler</option>
+                    <option value="verbs">Fiiller</option>
+                    <option value="adjectives">Sıfatlar</option>
+                    <option value="emotions">Duygular</option>
+                    <option value="nature">Doğa & Mekan</option>
+                    <option value="advanced">İleri Seviye</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <input type="text" id="searchBox" class="search-box" placeholder="🔍 Kelime ara...">
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <span id="progressText" class="progress-text">0 / 0</span>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalWords">0</span>
+                <span class="stat-label">Toplam Kelime</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="learnedWords">0</span>
+                <span class="stat-label">Öğrenilen</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="remainingWords">0</span>
+                <span class="stat-label">Kalan</span>
+            </div>
+        </div>
+
+        <div id="cardContainer" class="card-container">
+            <div class="word-card" id="wordCard">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="word-english" id="wordEnglish">DUNGEON</div>
+                        <div class="word-pronunciation" id="wordPronunciation">/ˈdʌndʒən/</div>
+                        <button class="flip-btn" id="flipBtn">🔄 Çevir</button>
+                    </div>
+                    <div class="card-back">
+                        <div class="word-turkish" id="wordTurkish">Zindan</div>
+                        <div class="story-container">
+                            <h3>🧠 Hafıza Hikayesi</h3>
+                            <div class="story-text" id="storyText">
+                                Karanlık zindanda mahkumlar birbirlerine mesaj göndermek için bozuk paralarla su borularına vuruyorlar...
+                            </div>
+                        </div>
+                        <div class="mnemonic" id="mnemonic">
+                            <strong>🎯 Anahtar:</strong> "Dan-çın" sesleri = Zindan
+                        </div>
+                        <div class="category-tag" id="categoryTag">Temel Kelimeler</div>
+                        <button class="learned-btn" id="learnedBtn">✅ Öğrendim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="word-list-container">
+            <h2>📚 Kelime Listesi</h2>
+            <div id="wordList" class="word-list"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>💡 Her kelime için kartı tıklayarak hikayeyi görebilirsiniz</p>
+        <p>🔊 Sesli anlatım otomatik başlar</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
